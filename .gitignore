@@ -1,0 +1,9 @@
+# Project place file
+/StateMachine.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Selene files
+sourcemap.json
