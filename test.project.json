@@ -6,7 +6,7 @@
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "Shared": {
-        "$path": "test/shared",
+        "$className": "Folder",
 
         "StateMachine": {
           "$path": "src"
