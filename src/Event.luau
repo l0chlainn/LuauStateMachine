@@ -1,4 +1,6 @@
+--[[ Event Class ]]--
 local Event = {}
+Event.__type = "Event"
 Event.__index = Event
 
 function Event.new(name, toState, fromStates)

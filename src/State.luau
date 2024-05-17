@@ -1,4 +1,6 @@
+--[[ State Class ]]--
 local State = {}
+State.__type = "State"
 State.__index = State
 
 function State.new(name, onEnter, onExit)

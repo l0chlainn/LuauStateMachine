@@ -1,9 +1,22 @@
-local StateMachine = script.Parent
-local State = require(StateMachine.State)
-local Event = require(StateMachine.Event)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local Shared = ReplicatedStorage.Shared
+
+local LochsKit = require(Shared.LochsKit)
+local CustomEnum = LochsKit.CustomEnum
+local Exception = LochsKit.Exception
+
+local Exceptions = CustomEnum.new({
+    InvalidEvent = 0,
+    InvalidTransition = 1,
+})
+
+--[[ Machine Class ]]--
 local Machine = {}
+Machine.__type = "Machine"
 Machine.__index = Machine
+
+Machine.Exceptions = Exceptions
 
 function Machine.new(states, events, initial)
     if typeof(states) ~= "table" then error("states must be a table!", 2) end
@@ -12,7 +25,7 @@ function Machine.new(states, events, initial)
 
     local statesMap = {}
     for _, state in states do
-        if typeof(state) ~= "table" or state.__index ~= State then
+        if typeof(state) ~= "table" or state.__type ~= "State" then
             error("state in states must be a State!", 2)
         end
         statesMap[state.name] = state
@@ -20,7 +33,7 @@ function Machine.new(states, events, initial)
 
     local eventsMap = {}
     for _, event in states do
-        if typeof(event) ~= "table" or event.__index ~= Event then
+        if typeof(event) ~= "table" or event.__type ~= "Event" then
             error("event in events must be a Event!", 2)
         end
         eventsMap[event.name] = event
@@ -60,9 +73,9 @@ function Machine:triggerEvent(name)
 
     local event = self._eventsMap[name]
     if not event then
-        return false
+        return false, Exception.new(Exceptions.InvalidEvent, "provided name did not map to a valid event!")
     elseif not event:canTransitionFromState(self.currentState) then
-        return false
+        return false, Exception.new(Exceptions.InvalidTransition, "can not transition from current state!")
     end
 
     local currentState = self._statesMap[self.currentState]
