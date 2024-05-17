@@ -2,9 +2,9 @@ local State = {}
 State.__index = State
 
 function State.new(name, onEnter, onExit)
-    assert(typeof(name) == "string", "name must be a string!")
-    assert(typeof(onEnter) == "function", "onEnter must be a function!")
-    assert(typeof(onExit) == "function", "onExit must be a function!")
+    if typeof(name) ~= "string" then error("name must be a string!", 2) end
+    if typeof(onEnter) ~= "function" then error("onEnter must be a function!", 2) end
+    if typeof(onExit) ~= "function" then error("onExit must be a function!", 2) end
 
     -- construct an instance of State
     local self = setmetatable({}, State)

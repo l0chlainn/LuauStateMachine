@@ -2,9 +2,9 @@ local Event = {}
 Event.__index = Event
 
 function Event.new(name, toState, fromStates)
-    assert(typeof(name) == "string", "name must be a string!")
-    assert(typeof(toState) == "string", "toState must be a string!")
-    assert(typeof(fromStates) == "table", "fromStates must be a table!")
+    if typeof(name) ~= "string" then error("name must be a string!", 2) end
+    if typeof(toState) ~= "string" then error("toState must be a string!", 2) end
+    if typeof(fromStates) ~= "table" then error("fromStates must be a string!", 2) end
 
     -- construct an instance of Transiton
     local self = setmetatable({}, Event)
@@ -18,7 +18,7 @@ function Event.new(name, toState, fromStates)
 end
 
 function Event:canTransitionFromState(name)
-    assert(typeof(name) == "string", "name must be a string!")
+    if typeof(name) ~= "string" then error("name must be a string!", 2) end
 
     for _, state in self.fromStates do
         if state == name then
