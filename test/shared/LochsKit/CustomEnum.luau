@@ -14,7 +14,9 @@ function CustomEnum.new(enumMap)
     end
 
     -- construct an instance of CustomEnum
-    return setmetatable(enumMap, CustomEnum)
+    setmetatable(enumMap, CustomEnum)
+
+    return enumMap
 end
 
 return CustomEnum

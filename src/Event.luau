@@ -9,12 +9,12 @@ function Event.new(name, toState, fromStates)
     if typeof(fromStates) ~= "table" then error("fromStates must be a string!", 2) end
 
     -- construct an instance of Transiton
-    local self = setmetatable({}, Event)
-
-    self.name = name
-
-    self.toState = toState
-    self.fromStates = fromStates
+    local self = {
+        name = name,
+        toState = toState,
+        fromStates = fromStates,
+    }
+    setmetatable(self, Event)
 
     return self
 end

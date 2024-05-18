@@ -9,12 +9,12 @@ function State.new(name, onEnter, onExit)
     if typeof(onExit) ~= "function" then error("onExit must be a function!", 2) end
 
     -- construct an instance of State
-    local self = setmetatable({}, State)
-
-    self.name = name
-
-    self._onEnter = onEnter
-    self._onExit = onExit
+    local self = {
+        name = name,
+        _onEnter = onEnter,
+        _onExit = onExit,
+    }
+    setmetatable(self, State)
 
     return self
 end

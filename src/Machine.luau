@@ -18,10 +18,10 @@ Machine.__index = Machine
 
 Machine.Exceptions = Exceptions
 
-function Machine.new(states, events, initial)
+function Machine.new(initial, states, events)
+    if typeof(initial) ~= "string" then error("initial must be a string!", 2) end
     if typeof(states) ~= "table" then error("states must be a table!", 2) end
     if typeof(events) ~= "table" then error("events must be a table!", 2) end
-    if typeof(initial) ~= "string" then error("initial must be a string!", 2) end
 
     local statesMap = {}
     for _, state in states do
@@ -41,17 +41,18 @@ function Machine.new(states, events, initial)
 
     local initialState = statesMap[initial]
     if not initialState then
-        error("initial must be a valid state name!")
+        error("initial must be a valid state name!", 2)
     end
 
     -- construct an instance of Machine
-    local self = setmetatable({}, Machine)
+    local self = {
+        currentState = initial,
+        _statesMap = statesMap,
+        _eventsMap = eventsMap,
+    }
+    setmetatable(self, Machine)
 
-    self.currentState = initial
-
-    self._statesMap = statesMap
-    self._eventsMap = eventsMap
-
+    -- enter first state so Machine can transition
     initialState:enter()
 
     return self
