@@ -32,7 +32,7 @@ function Machine.new(initial, states, events)
     end
 
     local eventsMap = {}
-    for _, event in states do
+    for _, event in events do
         if typeof(event) ~= "table" or event.__type ~= "Event" then
             error("event in events must be a Event!", 2)
         end
